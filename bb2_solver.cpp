@@ -131,18 +131,16 @@ void depth(node<field*> *cur_node, node<Point> *cur_coord) {
 				delete proc_node;
 				delete point_node;
 				continue;
+			} else {
+				cur_node->append_child(proc_node);
+				cur_coord->append_child(point_node);
 			}
 			if (clicks == 0) {
 				if (isZeros(ptr)) {
 					global_exit = true;
-					cur_node->append_child(proc_node);
-					cur_coord->append_child(point_node);
 					break;
 				}
-			}
-			cur_node->append_child(proc_node);
-			cur_coord->append_child(point_node);
-			if (clicks != 0) depth(proc_node,point_node);
+			} else depth(proc_node,point_node);
 			if (global_exit) break;
 		}
 		if (global_exit) break;
@@ -153,17 +151,15 @@ void depth(node<field*> *cur_node, node<Point> *cur_coord) {
 	clicks += 1;
 }
 
-//TODO: fix graph output
 #ifdef GRAPH
 void outGraph(ofstream &graph, node<field*> *root, node<Point> *rootc) {
 	vector<node<field*>*>::iterator itrf = root->begin();
 	vector<node<Point>*>::iterator itrp = rootc->begin();
-	field::iterator itr1 = root->get_data()->begin();
-	vector<char>::iterator itr2;
+	field *cur = root->get_data();
 	graph << root->get_name() << "[label=\"";
-	for(;itr1 != root->get_data()->end();++itr1) {
-		for(itr2 = (*itr1).begin(); itr2 != (*itr1).end(); ++itr2)
-			graph << (*itr2) << ",";
+	for(int i=0; i<6; ++i) {
+		for(int j=0; j<5; ++j)
+			graph << (*cur)[i][j] << ",";
 		graph << "\\n";
 	}
 	graph << "\"];\n";
