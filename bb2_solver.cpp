@@ -1,10 +1,10 @@
 #include <iostream>
-#include <vector>
 #include <fstream>
+#include <cstdlib>
 #include "node.h"
 
 using namespace std;
-typedef vector<vector<char> > field;
+typedef unsigned char field[6][5]; 
 static int clicks = 0;
 static int last_clicks = 0;
 static bool global_exit = false;
@@ -16,39 +16,25 @@ struct Point {
 };
 
 bool isZeros(field *fld) {
-	for (field::iterator itr = fld->begin();
-		itr != fld->end();
-		++itr)
-		for (vector<char>::iterator itr2 = (*itr).begin();
-				itr2 != (*itr).end();
-				++itr2)
-				if ((*itr2) != '0') return false;
+	for(int i=0; i<6; ++i)
+		for(int j=0; j<5; ++j)
+			if ((*fld)[i][j] != '0') return false;
 	return true;
 }
 
 bool isCorrect(field *fld) {
-	for (field::iterator itr = fld->begin();
-		itr != fld->end();
-		++itr)
-		for (vector<char>::iterator itr2 = (*itr).begin();
-				itr2 != (*itr).end();
-				++itr2)
-				if ((*itr2) >= '5') return false;
+	for(int i=0; i<6; ++i)
+		for(int j=0; j<5; ++j)
+			if ((*fld)[i][j] >= '5') return false;
 	return true;
 }
 
 void inField(field *fld) {
-	vector<char> tmp;
 	char t;
 	do {
-		for (int i=0;i<6;i++) {
-			for (int j=0;j<5;j++) {
-				cin >> t;
-				tmp.push_back(t);
-			}
-			fld->push_back(tmp);
-			tmp.clear();
-		}
+		for (int i=0;i<6;i++)
+			for (int j=0;j<5;j++)
+				cin >> (*fld)[i][j];
 	} while (!isCorrect(fld));
 }
 
@@ -61,8 +47,11 @@ void outField(field *fld) {
 	cout << endl;
 }
 
-void copyFieldTo(field *fld1, field *fld2) {
-	fld2->assign(fld1->begin(),fld2->end());
+void copyFieldTo(field *dest, field *src) {
+	//memcpy?
+	for(int i=0; i<6; ++i)
+		for(int j=0; j<5; ++j)
+			(*dest)[i][j] = (*src)[i][j];
 }
 
 Point isHaveFives(field *fld) {
@@ -111,9 +100,10 @@ void clickBall(field *fld, int x, int y) {
 }
 
 field* copyField(field *fld) {
-		field *ptr = new field();
-		ptr->assign(fld->begin(), fld->end());
-		return ptr;
+	//new[]?
+	field *ptr = (field*) malloc(5*6);
+	copyFieldTo(ptr,fld);
+	return ptr;
 }
 
 bool isEqual(field *fld1, field *fld2) {
@@ -163,6 +153,7 @@ void depth(node<field*> *cur_node, node<Point> *cur_coord) {
 	clicks += 1;
 }
 
+//TODO: fix graph output
 #ifdef GRAPH
 void outGraph(ofstream &graph, node<field*> *root, node<Point> *rootc) {
 	vector<node<field*>*>::iterator itrf = root->begin();
@@ -192,7 +183,7 @@ int main(int argc, char **argv) {
 	char wait;
 	node<field*> root;
 	node<Point> rootc;
-	field *init = new field();
+	field *init = (field*) malloc(5*6);
 	cout << "enter initial values:" << endl;
 	cout << "field:" << endl;
 	inField(init);
