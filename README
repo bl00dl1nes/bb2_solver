@@ -1,4 +1,2 @@
 Program that solves levels in 'Bubble Blast 2' game on Android OS.
-use compile.bat or compile.sh for Win or GNU/Linux
-bb2_graph - executable that generates graph.txt file for graphviz
-bb2_solver - executable that only prints result in command line 
+
