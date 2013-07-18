@@ -14,11 +14,15 @@ public:
 
   void setValue(uint8_t x, uint8_t y, uint8_t val);
   uint8_t getValue(uint8_t x, uint8_t y) const;
+  void incValue(uint8_t x, uint8_t y);
   bool isCorrect();
   bool isZeros();
   Field& operator=(Field&);
+  bool operator==(Field&);
 
 private:
+  uint8_t* getField();
+
   Field(Field&);
   uint8_t m_Field[MAX_X][MAX_Y];
 };
