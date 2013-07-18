@@ -5,6 +5,7 @@
 #include "field.h"
 #include <queue>
 #include <cmath>
+#include <windows.h>
 
 struct Point {
 	Point():x(0),y(0) {}
@@ -140,7 +141,6 @@ void depth(node<Field*> *cur_node, node<Point> *cur_coord)
 	clicks += 1;
 }
 
-#ifdef GRAPH
 void outGraph(ofstream &graph, node<Field*> *root, node<Point> *rootc) {
 	vector<node<Field*>*>::iterator itrf = root->begin();
 	vector<node<Point>*>::iterator itrp = rootc->begin();
@@ -162,10 +162,10 @@ void outGraph(ofstream &graph, node<Field*> *root, node<Point> *rootc) {
 		outGraph(graph,(*itrf),(*itrp));
 	}
 }
-#endif //GRAPH
 
 int main(int argc, char **argv) {
 	char wait;
+	DWORD startTick;
 	node<Field*> root;
 	node<Point> rootc;
 	Field *init = new Field;
@@ -178,8 +178,9 @@ int main(int argc, char **argv) {
 	cout << endl;
 	root.set_data(init); //head
 	rootc.set_data(Point(0,0));
+	startTick = GetTickCount();
 	depth(&root,&rootc);
-	#ifdef GRAPH
+	cout << "processing time: " << (GetTickCount() - startTick)/1000 << " sec" << endl;
 	ofstream graph;
 	graph.open("graph.txt");
 	graph << "digraph g {\n";
@@ -187,8 +188,7 @@ int main(int argc, char **argv) {
 	outGraph(graph,&root,&rootc);
 	graph << "\n}";
 	graph.close();
-	#endif //GRAPH
-	cout << "enter any symbol:";
+	cout << "enter any integer:";
 	cin >> wait;
 	return 0;
 }
