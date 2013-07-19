@@ -5,7 +5,7 @@
 #include <string>
 
 using namespace std;
-static long count = 0; //must have for 5 click's worst case
+static long count = 0;
 
 template<typename T>
 class node {
@@ -28,7 +28,7 @@ class node {
 		
 	private:
 		void make_name();
-		string c;
+		char name[20];
 		vector<node<T>*> children;
 		node<T> *parent;
 		T data;
@@ -56,9 +56,7 @@ node<T>::node(const T& d):parent(0) {
 
 template<typename T>
 void node<T>::make_name() {
-	char tmp[20];
-	sprintf(tmp,"%c%i",'a',count);
-	c = tmp;
+	sprintf(name,"%c%i",'a',count);
 }
 
 template<typename T>
@@ -83,7 +81,7 @@ node<T>* node<T>::get_parent() {
 
 template<typename T>
 const char* node<T>::get_name() {
-	return c.c_str();
+	return name;
 }
 
 template<typename T>
