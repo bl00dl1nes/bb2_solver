@@ -5,7 +5,7 @@
 #include <string>
 
 using namespace std;
-static int count = 0;
+static long count = 0; //must have for 5 click's worst case
 
 template<typename T>
 class node {
@@ -29,29 +29,28 @@ class node {
 	private:
 		void make_name();
 		string c;
-		bool made;
 		vector<node<T>*> children;
 		node<T> *parent;
 		T data;
 };
 
 template<typename T>
-node<T>::node():parent(0),made(false) { count++; make_name(); }
+node<T>::node():parent(0) { count++; make_name(); }
 
 template<typename T>
-node<T>::node(const node<T> &d):parent(0),made(false) {
+node<T>::node(const node<T> &d):parent(0) {
 	for (typename vector<node<T>*>::iterator itr=d.begin();itr != d.end();++itr) 
 		children.append_child(*itr);
 	data = d.get_data();
 	parent = d.get_parent();
-	count++;
+	count++; 
 	make_name();
 }
 
 template<typename T>
-node<T>::node(const T& d):parent(0),made(false) {
+node<T>::node(const T& d):parent(0) {
 	data = d;
-	count++;
+	count++; 
 	make_name();
 }
 

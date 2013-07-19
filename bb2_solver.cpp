@@ -9,8 +9,8 @@
 
 struct Point {
 	Point():x(0),y(0) {}
-	Point(int _x, int _y):x(_x),y(_y) {}
-	int x, y;
+	Point(uint8_t _x, uint8_t _y):x(_x),y(_y) {}
+	uint8_t x, y;
 };
 
 using namespace std;
@@ -18,7 +18,7 @@ static int clicks = 0;
 static int last_clicks = 0;
 static bool global_exit = false;
 static queue<Point> queuePoints;
-
+static long fieldSize = 0, pointSize = 0;
 
 void inputField(Field *fld) 
 {
@@ -46,7 +46,7 @@ void outputField(Field *fld)
 	cout << endl;
 }
 
-void processField(Field *fld) 
+void processField(Field *fld)
 {
 	uint8_t x, y;
 	while (!queuePoints.empty()) 
@@ -63,7 +63,7 @@ void processField(Field *fld)
 					queuePoints.push(Point(i, y));
 			}
 		for (uint8_t j = y - 1; j < MAX_Y; --j)
-			if (fld->getValue(x, j) != 0 && fld->getValue(x, j) != 5) 
+			if (fld->getValue(x, j) != 0 && fld->getValue(x, j) != 5)
 			{
 				fld->incValue(x, j);
 				if (fld->getValue(x, j) == 5)
@@ -89,7 +89,7 @@ void processField(Field *fld)
 	}
 }
 
-bool clickBall(Field *fld, int x, int y) 
+bool clickBall(Field *fld, int x, int y)
 {
 	if (fld->getValue(x, y) != 0) 
 	{
@@ -119,6 +119,8 @@ void depth(node<Field*> *cur_node, node<Point> *cur_coord)
 			} else {
 				proc_node = new node<Field*>(ptr);
 				point_node = new node<Point>(Point(i,j));
+				fieldSize += sizeof(Field);
+				pointSize += sizeof(Point);
 				cur_node->append_child(proc_node);
 				cur_coord->append_child(point_node);
 			}
@@ -181,6 +183,7 @@ int main(int argc, char **argv) {
 	startTick = GetTickCount();
 	depth(&root,&rootc);
 	cout << "processing time: " << (GetTickCount() - startTick)/1000 << " sec" << endl;
+	cout << "fieldSize = " << fieldSize << endl << "pointSize = " << pointSize << endl;
 	ofstream graph;
 	graph.open("graph.txt");
 	graph << "digraph g {\n";

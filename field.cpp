@@ -28,7 +28,7 @@ void Field::incValue(uint8_t x, uint8_t y)
   setValue(x, y, getValue(x, y) + 1);
 }
 
-bool Field::isCorrect()
+bool Field::isCorrect() const
 {
   for(int i=0; i<MAX_X; ++i)
     for(int j=0; j<MAX_Y; ++j)
@@ -36,7 +36,7 @@ bool Field::isCorrect()
   return true;
 }
 
-bool Field::isZeros()
+bool Field::isZeros() const
 {
   for(int i=0; i<MAX_X; ++i)
     for(int j=0; j<MAX_Y; ++j)
