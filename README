@@ -1,2 +1,17 @@
-Program that solves levels in 'Bubble Blast 2' game on Android OS.
+Program that solves levels in 'Bubble Blast 2' (and others similar to it) game on Android OS.
+Used 6x5 field, so if you need other sizes change it in field.h
+
+Build & Use
+
+make
+bb2_solver
+
+On my pc it falls with field filled with '1' and 5 clicks (4GB RAM), 
+so use it accurately. But in real levels there are many empty cells
+and clicks dont above 4~5 so program will work properly.
+
+If you want program to generate graph.txt for GraphWiz run it with any arguments, for example:
+"bb2_solver make this graph!"
+
+
 

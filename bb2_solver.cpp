@@ -184,14 +184,18 @@ int main(int argc, char **argv) {
 	startTick = GetTickCount();
 	depth(&root,&rootc);
 	cout << "processing time: " << (GetTickCount() - startTick)/1000 << " sec" << endl;
-	cout << "fieldSize = " << fieldSize << endl << "pointSize = " << pointSize << endl;
-	ofstream graph;
-	graph.open("graph.txt");
-	graph << "digraph g {\n";
-	graph << "graph[splines=true];\n";
-	outGraph(graph,&root,&rootc);
-	graph << "\n}";
-	graph.close();
+	// cout << "fieldSize = " << fieldSize << endl << "pointSize = " << pointSize << endl;
+	if (argc >= 2)
+	{
+		cout << "writing graph.txt" << endl;
+		ofstream graph;
+		graph.open("graph.txt");
+		graph << "digraph g {\n";
+		graph << "graph[splines=true];\n";
+		outGraph(graph,&root,&rootc);
+		graph << "\n}";
+		graph.close();
+	}
 	cout << "enter any integer:";
 	cin >> wait;
 	return 0;
