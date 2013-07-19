@@ -15,7 +15,7 @@ class Field
 {
 public:
   Field();
-  virtual ~Field();
+  ~Field();
 
   void setValue(uint8_t x, uint8_t y, uint8_t val);
   uint8_t getValue(uint8_t x, uint8_t y) const;

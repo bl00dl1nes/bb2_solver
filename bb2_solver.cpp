@@ -94,7 +94,8 @@ bool clickBall(Field *fld, int x, int y)
 	if (fld->getValue(x, y) != 0) 
 	{
 		fld->incValue(x, y); //clicking
-		queuePoints.push(Point(x, y));
+		if (fld->getValue(x, y) == 5)
+			queuePoints.push(Point(x, y));
 		processField(fld);
 		return true;
 	}
@@ -150,7 +151,7 @@ void outGraph(ofstream &graph, node<Field*> *root, node<Point> *rootc) {
 	graph << root->get_name() << "[label=\"";
 	for(int i=0; i<MAX_X; ++i) {
 		for(int j=0; j<MAX_Y; ++j)
-			graph << cur->getValue(i, j) << ",";
+			graph << (char)(cur->getValue(i, j) + '0') << ",";
 		graph << "\\n";
 	}
 	graph << "\"];\n";
